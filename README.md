@@ -21,3 +21,10 @@ No network, no randomness, no timestamps — running it twice gives identical by
 ```sh
 python3 main.py
 ```
+
+## Check it
+
+```sh
+python3 -c "from PIL import Image; im = Image.open('entry.png'); print(im.size, im.format)"
+# expected: (1024, 1024) PNG, under 1 MiB
+```

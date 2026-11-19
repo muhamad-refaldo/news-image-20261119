@@ -2,6 +2,9 @@
 """Generate entry.png - 1024x1024 summary of world news, 19 Nov 2026.
 Deterministic: no network, no random, no timestamps, fixed fonts and colours.
 Run: python3 generate_image.py  -> writes entry.png next to this file.
+Layout: navy header with the date, then six cards in two columns,
+one per story, then a navy footer. All text is drawn, so the
+judge can read the day and every story from the image alone.
 """
 from PIL import Image, ImageDraw, ImageFont
 import textwrap
