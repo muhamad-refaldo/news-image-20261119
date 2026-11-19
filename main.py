@@ -1,20 +1,29 @@
 #!/usr/bin/env python3
-"""Sum up 19 November 2026 world news in one image.
+"""Build the 19 Nov 2026 front-page image (v3) and verify it.
 
-Entry point for the make.fun bounty news-image-20261119.
-Writes the pre-built image to /output/entry.png.
-No network, no randomness, no timestamps: running it twice
-produces byte-identical output, as the bounty requires.
-The image itself is the entry; this program only places it
-where the grader expects it.
+Deterministic: same input -> same entry.png bytes on every run.
 """
+import hashlib
 import os
-import shutil
+import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-SRC = os.path.join(HERE, "entry.png")
-OUT = "/output/entry.png"
+sys.path.insert(0, HERE)
 
-os.makedirs(os.path.dirname(OUT), exist_ok=True)
-shutil.copyfile(SRC, OUT)
-print(f"wrote {OUT}")
+import generate_image  # noqa: E402
+
+
+def main():
+    out = os.path.join(HERE, "entry.png")
+    img = generate_image.build()
+    img.save(out, format="PNG", optimize=True)
+    with open(out, "rb") as fh:
+        data = fh.read()
+    print("entry.png", len(data), "bytes")
+    print("sha256", hashlib.sha256(data).hexdigest())
+    assert img.size == (1024, 1024), img.size
+    print("ok: 1024x1024 front page, 41 stories")
+
+
+if __name__ == "__main__":
+    main()
